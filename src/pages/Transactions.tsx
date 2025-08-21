@@ -225,74 +225,134 @@ const Transactions: React.FC = () => {
 
       {/* Transactions Table */}
       <div className="bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-slate-700">
-                <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Transaction</th>
-                <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Amount</th>
-                <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Status</th>
-                <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm hidden sm:table-cell">Customer</th>
-                <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Date</th>
-                <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions.map((tx) => {
-                const StatusIcon = getStatusIcon(tx.status);
-                return (
-                  <tr key={tx.id} className="border-b border-slate-800 hover:bg-slate-800/30 transition-colors duration-200">
-                    <td className="py-3 sm:py-4 px-2">
-                      <div className="space-y-1">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-white font-mono text-xs sm:text-sm">{truncateHash(tx.txid)}</span>
+        <div>
+          {/* Mobile Card Layout */}
+          <div className="block sm:hidden space-y-4">
+            {filteredTransactions.map((tx) => {
+              const StatusIcon = getStatusIcon(tx.status);
+              return (
+                <div key={tx.id} className="p-4 bg-slate-700/30 rounded-xl border border-slate-600/50 hover:bg-slate-700/50 transition-all duration-200">
+                  <div className="space-y-3">
+                    {/* Header with hash and status */}
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <span className="text-white font-mono text-xs">{truncateHash(tx.txid)}</span>
                           <button
                             onClick={() => copyToClipboard(tx.txid)}
-                            className="p-1 hover:bg-slate-700 rounded transition-colors duration-200 hidden sm:block"
+                            className="p-1 hover:bg-slate-600 rounded transition-colors duration-200"
                           >
                             <Copy className="w-3 h-3 text-slate-400" />
                           </button>
                         </div>
-                        <p className="text-slate-400 text-xs hidden sm:block">{tx.description}</p>
+                        <p className="text-slate-400 text-xs">{tx.description}</p>
                       </div>
-                    </td>
-                    <td className="py-3 sm:py-4 px-2">
-                      <div className="space-y-1">
-                        <div className="text-white font-semibold text-sm sm:text-base">{tx.amount} {tx.crypto}</div>
-                        <div className="text-slate-400 text-xs sm:text-sm">${tx.usdAmount.toLocaleString()}</div>
+                      <div className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(tx.status)} ml-2`}>
+                        <StatusIcon className="w-3 h-3" />
+                        <span>{tx.status}</span>
                       </div>
-                    </td>
-                    <td className="py-3 sm:py-4 px-2">
-                      <div className="space-y-2">
-                        <div className={`inline-flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(tx.status)}`}>
-                          <StatusIcon className="w-3 h-3 sm:w-3 sm:h-3" />
-                          <span className="hidden sm:inline">{tx.status}</span>
-                          <span className="sm:hidden">{tx.status.charAt(0)}</span>
-                        </div>
-                        {tx.status === 'Pending' && (
-                          <div className="text-xs text-slate-400 hidden sm:block">
-                            {tx.confirmations}/{tx.requiredConfirmations} confirmations
-                          </div>
-                        )}
+                    </div>
+
+                    {/* Amount and customer */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-white font-semibold text-sm">{tx.amount} {tx.crypto}</div>
+                        <div className="text-slate-400 text-xs">${tx.usdAmount.toLocaleString()}</div>
                       </div>
-                    </td>
-                    <td className="py-3 sm:py-4 px-2 text-slate-300 hidden sm:table-cell text-sm">{tx.customer}</td>
-                    <td className="py-3 sm:py-4 px-2">
-                      <div className="space-y-1">
-                        <div className="text-slate-300 text-xs sm:text-sm">{tx.date}</div>
-                        <div className="text-slate-400 text-xs hidden sm:block">{tx.time}</div>
+                      <div className="text-right">
+                        <div className="text-slate-300 text-xs">{tx.customer}</div>
+                        <div className="text-slate-400 text-xs">{tx.date} {tx.time}</div>
                       </div>
-                    </td>
-                    <td className="py-3 sm:py-4 px-2">
-                      <button className="p-1 sm:p-2 hover:bg-slate-700 rounded-lg transition-colors duration-200">
+                    </div>
+
+                    {/* Confirmations for pending */}
+                    {tx.status === 'Pending' && (
+                      <div className="text-xs text-slate-400">
+                        {tx.confirmations}/{tx.requiredConfirmations} confirmations
+                      </div>
+                    )}
+
+                    {/* Action button */}
+                    <div className="flex justify-end">
+                      <button className="p-2 hover:bg-slate-600 rounded-lg transition-colors duration-200">
                         <ExternalLink className="w-4 h-4 text-slate-400" />
                       </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Table Layout */}
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-700">
+                  <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Transaction</th>
+                  <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Amount</th>
+                  <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Status</th>
+                  <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Customer</th>
+                  <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Date</th>
+                  <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTransactions.map((tx) => {
+                  const StatusIcon = getStatusIcon(tx.status);
+                  return (
+                    <tr key={tx.id} className="border-b border-slate-800 hover:bg-slate-800/30 transition-colors duration-200">
+                      <td className="py-4 px-2">
+                        <div className="space-y-1">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-white font-mono text-sm">{truncateHash(tx.txid)}</span>
+                            <button
+                              onClick={() => copyToClipboard(tx.txid)}
+                              className="p-1 hover:bg-slate-700 rounded transition-colors duration-200"
+                            >
+                              <Copy className="w-3 h-3 text-slate-400" />
+                            </button>
+                          </div>
+                          <p className="text-slate-400 text-xs">{tx.description}</p>
+                        </div>
+                      </td>
+                      <td className="py-4 px-2">
+                        <div className="space-y-1">
+                          <div className="text-white font-semibold">{tx.amount} {tx.crypto}</div>
+                          <div className="text-slate-400 text-sm">${tx.usdAmount.toLocaleString()}</div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-2">
+                        <div className="space-y-2">
+                          <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(tx.status)}`}>
+                            <StatusIcon className="w-3 h-3" />
+                            <span>{tx.status}</span>
+                          </div>
+                          {tx.status === 'Pending' && (
+                            <div className="text-xs text-slate-400">
+                              {tx.confirmations}/{tx.requiredConfirmations} confirmations
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-4 px-2 text-slate-300 text-sm">{tx.customer}</td>
+                      <td className="py-4 px-2">
+                        <div className="space-y-1">
+                          <div className="text-slate-300 text-sm">{tx.date}</div>
+                          <div className="text-slate-400 text-xs">{tx.time}</div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-2">
+                        <button className="p-2 hover:bg-slate-700 rounded-lg transition-colors duration-200">
+                          <ExternalLink className="w-4 h-4 text-slate-400" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {filteredTransactions.length === 0 && (
