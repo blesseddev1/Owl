@@ -145,7 +145,7 @@ const Transactions: React.FC = () => {
           <p className="text-slate-400 mt-1">View and manage all your payment transactions</p>
         </div>
         
-        <button className="px-6 py-3 bg-gradient-to-r from-teal-500 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+        <button className="px-4 sm:px-6 py-3 bg-gradient-to-r from-teal-500 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto">
           <Download className="w-5 h-5" />
           <span>Export CSV</span>
         </button>
@@ -183,7 +183,7 @@ const Transactions: React.FC = () => {
 
       {/* Filters */}
       <div className="bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col lg:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -192,16 +192,16 @@ const Transactions: React.FC = () => {
                 placeholder="Search transactions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:bg-slate-600 transition-colors duration-200"
+                className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:bg-slate-600 transition-colors duration-200 text-sm sm:text-base"
               />
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full sm:w-auto px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white focus:outline-none focus:border-teal-400 focus:bg-slate-600 transition-colors duration-200"
+              className="w-full sm:w-auto px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white focus:outline-none focus:border-teal-400 focus:bg-slate-600 transition-colors duration-200 text-sm sm:text-base"
             >
               <option value="All">All Status</option>
               <option value="Confirmed">Confirmed</option>
@@ -212,7 +212,7 @@ const Transactions: React.FC = () => {
             <select
               value={cryptoFilter}
               onChange={(e) => setCryptoFilter(e.target.value)}
-              className="w-full sm:w-auto px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white focus:outline-none focus:border-teal-400 focus:bg-slate-600 transition-colors duration-200"
+              className="w-full sm:w-auto px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white focus:outline-none focus:border-teal-400 focus:bg-slate-600 transition-colors duration-200 text-sm sm:text-base"
             >
               <option value="All">All Crypto</option>
               <option value="BTC">Bitcoin</option>
@@ -248,9 +248,9 @@ const Transactions: React.FC = () => {
                           <span className="text-white font-mono text-xs sm:text-sm">{truncateHash(tx.txid)}</span>
                           <button
                             onClick={() => copyToClipboard(tx.txid)}
-                            className="p-1 hover:bg-slate-700 rounded transition-colors duration-200"
+                            className="p-1 hover:bg-slate-700 rounded transition-colors duration-200 hidden sm:block"
                           >
-                            <Copy className="w-3 h-3 text-slate-400 hidden sm:block" />
+                            <Copy className="w-3 h-3 text-slate-400" />
                           </button>
                         </div>
                         <p className="text-slate-400 text-xs hidden sm:block">{tx.description}</p>
@@ -267,6 +267,7 @@ const Transactions: React.FC = () => {
                         <div className={`inline-flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(tx.status)}`}>
                           <StatusIcon className="w-3 h-3 sm:w-3 sm:h-3" />
                           <span className="hidden sm:inline">{tx.status}</span>
+                          <span className="sm:hidden">{tx.status.charAt(0)}</span>
                         </div>
                         {tx.status === 'Pending' && (
                           <div className="text-xs text-slate-400 hidden sm:block">
@@ -283,7 +284,7 @@ const Transactions: React.FC = () => {
                       </div>
                     </td>
                     <td className="py-3 sm:py-4 px-2">
-                      <button className="p-2 hover:bg-slate-700 rounded-lg transition-colors duration-200">
+                      <button className="p-1 sm:p-2 hover:bg-slate-700 rounded-lg transition-colors duration-200">
                         <ExternalLink className="w-4 h-4 text-slate-400" />
                       </button>
                     </td>
@@ -295,9 +296,9 @@ const Transactions: React.FC = () => {
         </div>
 
         {filteredTransactions.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-slate-400 text-lg mb-2">No transactions found</div>
-            <div className="text-slate-500">Try adjusting your search or filter criteria</div>
+          <div className="text-center py-8 sm:py-12">
+            <div className="text-slate-400 text-base sm:text-lg mb-2">No transactions found</div>
+            <div className="text-slate-500 text-sm sm:text-base">Try adjusting your search or filter criteria</div>
           </div>
         )}
       </div>

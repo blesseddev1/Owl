@@ -13,15 +13,15 @@ const BalanceCard: React.FC = () => {
   const totalUsd = Object.values(balanceData).reduce((sum, coin) => sum + coin.usd, 0);
 
   return (
-    <div className="p-4 sm:p-6 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+    <div className="p-4 sm:p-6 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 group">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <Wallet className="w-6 h-6 text-teal-400" />
-          <span className="text-slate-400 text-sm font-medium">Total Balance</span>
+          <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-teal-400 group-hover:scale-110 transition-transform duration-300" />
+          <span className="text-slate-400 text-xs sm:text-sm font-medium">Total Balance</span>
         </div>
         <button
           onClick={() => setShowBalance(!showBalance)}
-          className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors duration-200"
+          className="p-1 sm:p-2 hover:bg-slate-700/50 rounded-lg transition-colors duration-200"
         >
           {showBalance ? (
             <Eye className="w-4 h-4 text-slate-400" />
@@ -32,13 +32,13 @@ const BalanceCard: React.FC = () => {
       </div>
       
       <div className="space-y-3">
-        <div className="text-2xl sm:text-3xl font-bold text-white">
+        <div className="text-lg sm:text-2xl lg:text-3xl font-bold text-white">
           {showBalance ? `$${totalUsd.toLocaleString()}` : '••••••••'}
         </div>
         
         <div className="space-y-2">
           {Object.entries(balanceData).map(([coin, data]) => (
-            <div key={coin} className="flex justify-between text-xs sm:text-sm">
+            <div key={coin} className="flex justify-between text-xs">
               <span className="text-slate-400 uppercase">{coin}</span>
               <span className="text-white">
                 {showBalance ? `${data.amount} ($${data.usd.toLocaleString()})` : '•••••'}

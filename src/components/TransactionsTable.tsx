@@ -68,42 +68,48 @@ const TransactionsTable: React.FC = () => {
       <table className="w-full">
         <thead>
           <tr className="border-b border-slate-700">
-            <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Transaction ID</th>
-            <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Amount</th>
-            <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Crypto</th>
-            <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Status</th>
-            <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Date</th>
-            <th className="text-left py-4 px-2 text-slate-400 font-medium text-sm">Actions</th>
+            <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Transaction ID</th>
+            <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Amount</th>
+            <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm hidden sm:table-cell">Crypto</th>
+            <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Status</th>
+            <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm hidden md:table-cell">Date</th>
+            <th className="text-left py-3 sm:py-4 px-2 text-slate-400 font-medium text-xs sm:text-sm">Actions</th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((tx) => (
             <tr key={tx.id} className="border-b border-slate-800 hover:bg-slate-800/30 transition-colors duration-200">
-              <td className="py-4 px-2">
+              <td className="py-3 sm:py-4 px-2">
                 <div className="flex items-center space-x-2">
-                  <span className="text-white font-mono text-sm">{truncateHash(tx.txid)}</span>
+                  <span className="text-white font-mono text-xs sm:text-sm">{truncateHash(tx.txid)}</span>
                   <button
                     onClick={() => copyToClipboard(tx.txid)}
-                    className="p-1 hover:bg-slate-700 rounded transition-colors duration-200"
+                    className="p-1 hover:bg-slate-700 rounded transition-colors duration-200 hidden sm:block"
                   >
                     <Copy className="w-3 h-3 text-slate-400" />
                   </button>
                 </div>
               </td>
-              <td className="py-4 px-2 text-white font-semibold">{tx.amount}</td>
-              <td className="py-4 px-2">
+              <td className="py-3 sm:py-4 px-2">
+                <div className="space-y-1">
+                  <div className="text-white font-semibold text-sm sm:text-base">{tx.amount}</div>
+                  <div className="text-slate-400 text-xs sm:hidden">{tx.crypto}</div>
+                </div>
+              </td>
+              <td className="py-3 sm:py-4 px-2 hidden sm:table-cell">
                 <span className="px-2 py-1 bg-slate-700 text-slate-300 text-xs rounded-lg font-medium">
                   {tx.crypto}
                 </span>
               </td>
-              <td className="py-4 px-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(tx.status)}`}>
-                  {tx.status}
+              <td className="py-3 sm:py-4 px-2">
+                <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(tx.status)}`}>
+                  <span className="hidden sm:inline">{tx.status}</span>
+                  <span className="sm:hidden">{tx.status.charAt(0)}</span>
                 </span>
               </td>
-              <td className="py-4 px-2 text-slate-300">{tx.date}</td>
-              <td className="py-4 px-2">
-                <button className="p-2 hover:bg-slate-700 rounded-lg transition-colors duration-200">
+              <td className="py-3 sm:py-4 px-2 text-slate-300 text-xs sm:text-sm hidden md:table-cell">{tx.date}</td>
+              <td className="py-3 sm:py-4 px-2">
+                <button className="p-1 sm:p-2 hover:bg-slate-700 rounded-lg transition-colors duration-200">
                   <ExternalLink className="w-4 h-4 text-slate-400" />
                 </button>
               </td>

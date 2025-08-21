@@ -103,7 +103,7 @@ const PaymentLinkGenerator: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full px-6 py-4 bg-gradient-to-r from-teal-500 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
+              className="w-full px-6 py-4 bg-gradient-to-r from-teal-500 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
             >
               Generate Payment Link
             </button>
@@ -140,7 +140,7 @@ const PaymentLinkGenerator: React.FC = () => {
                   <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                     <button
                       onClick={() => copyToClipboard(generatedLink)}
-                      className="flex-1 px-4 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors duration-200 flex items-center justify-center space-x-2"
+                      className="flex-1 px-4 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
                     >
                       <Copy className="w-4 h-4" />
                       <span>Copy Link</span>
@@ -149,7 +149,7 @@ const PaymentLinkGenerator: React.FC = () => {
                       href={generatedLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-3 bg-gradient-to-r from-teal-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                      className="px-4 py-3 bg-gradient-to-r from-teal-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>View</span>
@@ -171,7 +171,7 @@ const PaymentLinkGenerator: React.FC = () => {
             <div className="bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sm:p-8 text-center">
               <QrCode className="w-12 h-12 sm:w-16 sm:h-16 text-slate-600 mx-auto mb-4" />
               <h3 className="text-base sm:text-lg font-bold text-slate-400 mb-2">QR Code Preview</h3>
-              <p className="text-slate-500">Fill out the form to generate a payment link and QR code</p>
+              <p className="text-slate-500 text-sm sm:text-base">Fill out the form to generate a payment link and QR code</p>
             </div>
           )}
         </div>
